@@ -1,5 +1,6 @@
 // controllers/homeControllers.js
 const BookModel = require('../model/Books');
+
 const getAllBooks = async (req, res) => { 
     try {
         const { category } = req.query;
