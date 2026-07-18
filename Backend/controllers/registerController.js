@@ -2,19 +2,22 @@ const pool = require('../model/db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const handlesignUp = async (req, res) => { 
-    const { name, email, pwd, role } = req.body; 
-    if (!name || !pwd || !email) {
-        return res.status(400).json({ "message": "All fields are required" });
+const handlesignUp = async (req, res) => {
+    const { name, email, password, pwd, role } = req.body;
+    const finalPassword = password || pwd;
+
+    if (!name || !finalPassword || !email) {
+        return res.status(400).json({ message: 'All fields are required' });
     }
+
     try {
-        const checkDuplicates = await pool.query("SELECT id FROM users WHERE name=$1 OR email=$2", [name, email]);
+        const checkDuplicates = await pool.query('SELECT id FROM users WHERE name=$1 OR email=$2', [name, email]);
         if (checkDuplicates.rows.length > 0) {
             return res.status(409).json({ "message": "name or Email already exists" });
         }
 
-        const hashedpwd = await bcrypt.hash(pwd, 10);
-        const userRole = role || 'customer'; 
+        const hashedpwd = await bcrypt.hash(finalPassword, 10);
+        const userRole = role || 'customer';
 
         const queryText = `
             INSERT INTO users (name, email, password, role)

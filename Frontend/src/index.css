@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+  --color-lux-bg: #0B0B0F;
+  --color-lux-card: #16161E;
+  --color-lux-gold: #D4AF37;
+  --color-lux-goldHover: #AA8822;
+  --color-lux-textMain: #F3F4F6;
+  --color-lux-textMuted: #9CA3AF;
+}

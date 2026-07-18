@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-
+//const dotenv = require('dotenv').config();
 const requireAuth = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
