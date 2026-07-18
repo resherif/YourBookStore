@@ -13,6 +13,7 @@ export default function PersistLogin({ children }) {
 
         const response = await fetch('/api/refresh', {
           method: 'GET',
+          credentials: 'include',
         });
         if (response.ok) {
           const data = await response.json();
