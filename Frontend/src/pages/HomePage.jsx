@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux'; // 👈 1. أضفنا هذا السطر لاستيراد الـ useSelector
+import { useSelector } from 'react-redux'; 
 import Navbar from '../components/Navbar';
 import { BookCard } from '../components/BookCard';
 import '../../src/index.css';
 
 export const Home = ({ onNavigate }) => {
   const [books, setBooks] = useState([]);
-  const token = useSelector((state) => state.cart.token); // جلب التوكن بأمان من الذاكرة المؤقتة
+  const token = useSelector((state) => state.cart.token); 
 
   useEffect(() => {
     const fetchBooks = async () => {

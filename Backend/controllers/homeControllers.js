@@ -72,8 +72,8 @@ const editBook = async (req, res) => {
 // 4. Delete Book
 const deleteBooks = async (req, res) => { 
     try { 
-        const { id } = req.params; // جلب الـ ID من الـ URL params
-        const book = await BookModel.deletBook(id); // تمرير الـ ID للدالة
+        const { id } = req.params; 
+        const book = await BookModel.deletBook(id); 
 
         if (!book) {
             return res.status(404).json({ success: false, message: 'Book not found to delete' });

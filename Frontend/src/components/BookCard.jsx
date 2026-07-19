@@ -11,7 +11,6 @@ export const BookCard = ({ book, onNavigate }) => {
 
   const handleAddToCart = async () => {
     if (!token) {
-      // الـ UX الذكي: حفظ السجل والتحويل للـ Login
       dispatch(setPendingItem({ book_id: book.id, quantity: 1 }));
       onNavigate('login');
       return;

@@ -20,7 +20,7 @@ export const Login = ({ onNavigate }) => {
       if (response.ok && data.accessToken) {
         dispatch(setToken(data.accessToken));
 
-        // الـ UX الذكي: فحص ورفع العناصر المعلقة بالسلة فوراً
+        
         const pendingItem = localStorage.getItem('pendingCartItem');
         if (pendingItem) {
           const parsedItem = JSON.parse(pendingItem);

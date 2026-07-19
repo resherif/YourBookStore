@@ -21,7 +21,7 @@ export const Cart = ({ onNavigate }) => {
 
   const updateQty = async (book_id, currentQty, change) => {
     const newQty = currentQty + change;
-    if (newQty <= 0) return; // منع الكميات السالبة أو الصفرية
+    if (newQty <= 0) return; 
 
     try {
       await fetch('/api/cart', {
@@ -32,7 +32,7 @@ export const Cart = ({ onNavigate }) => {
         },
         body: JSON.stringify({ book_id, quantity: newQty })
       });
-      // إعادة جلب السلة لتحديث البيانات
+      
       const res = await fetch('/api/cart', { headers: { 'Authorization': `Bearer ${token}` } });
       const data = await res.json();
       if (data.success) dispatch(setCartItems(data.data));
