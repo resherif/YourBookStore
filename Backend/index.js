@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config()
 const cookieParser = require('cookie-parser');
 const HomeRoute = require('./routes/HomeRoute');
 const specificBook = require('./routes/specificBookId');
@@ -13,9 +14,9 @@ app.use('/api', authRoutes);
 app.use('/api', HomeRoute);
 app.use('/api', specificBook);
 app.use('/api', cartOrdersRoute);
-
+const PORT = process.env.PORT;
 ensureUserAuthColumns().then(() => {
-  app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+  app.listen(PORT, () => {
+    console.log('Server is running on port ', PORT);
   });
 });
