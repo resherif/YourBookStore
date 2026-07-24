@@ -8,7 +8,6 @@ const cartOrdersRoute = require('./routes/cartOrdersRoute');
 const authRoutes = require('./routes/authRoutes');
 const { ensureUserAuthColumns } = require('./model/db');
 const app = express();
-const cors = require("cors");
 app.use(cors({
   origin: process.env.CLIENT_URL,
   credentials: true
