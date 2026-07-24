@@ -19,6 +19,7 @@ export const BookCard = ({ book, onNavigate }) => {
     try {
       await fetch('/api/cart', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`

@@ -16,7 +16,7 @@ export const Home = ({ onNavigate }) => {
           headers.Authorization = `Bearer ${token}`;
         }
 
-        const res = await fetch('/api/books', { headers });
+        const res = await fetch('/api/books', { headers, credentials: 'include' });
         const data = await res.json();
 
         if (res.ok && data.success) {

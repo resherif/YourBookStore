@@ -17,6 +17,7 @@ export const Signup = ({ onNavigate }) => {
     try {
       const response = await fetch('/api/register', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
       });

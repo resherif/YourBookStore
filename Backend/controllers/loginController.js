@@ -40,8 +40,9 @@ const handleLogin = async (req, res) => {
 
         res.cookie('jwt', refreshToken, {
             httpOnly: true,
-            sameSite:process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
             secure: process.env.NODE_ENV === 'production',
+            path: '/',
             maxAge: 24 * 60 * 60 * 1000
         });
 

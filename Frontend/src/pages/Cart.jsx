@@ -12,6 +12,7 @@ export const Cart = ({ onNavigate }) => {
   useEffect(() => {
     if (token) {
       fetch('/api/cart', {
+        credentials: 'include',
         headers: { 'Authorization': `Bearer ${token}` }
       })
       .then(res => res.json())
@@ -26,6 +27,7 @@ export const Cart = ({ onNavigate }) => {
     try {
       await fetch('/api/cart', {
         method: 'PUT',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -33,9 +35,39 @@ export const Cart = ({ onNavigate }) => {
         body: JSON.stringify({ book_id, quantity: newQty })
       });
       
-      const res = await fetch('/api/cart', { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch('/api/cart', { credentials: 'include', headers: { 'Authorization': `Bearer ${token}` } });
       const data = await res.json();
       if (data.success) dispatch(setCartItems(data.data));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+ const removeItem = async (book_id) => {
+    try {
+      await fetch(`/api/cart/${book_id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      const res = await fetch('/api/cart', { credentials: 'include', headers: { 'Authorization': `Bearer ${token}` } });
+      const data = await res.json();
+      if (data.success) dispatch(setCartItems(data.data));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const clearCart = async () => {
+    if (!window.confirm('Are you sure you want to clear your cart?')) return;
+
+    try {
+      await fetch('/api/cart', {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      dispatch(setCartItems([]));
     } catch (err) {
       console.error(err);
     }
@@ -46,6 +78,7 @@ export const Cart = ({ onNavigate }) => {
     
     const response = await fetch('/api/orders/checkout', {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -63,14 +96,23 @@ export const Cart = ({ onNavigate }) => {
   };
 
   const totalCartPrice = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
   return (
     <div className="bg-lux-bg min-h-screen text-lux-textMain">
       <Navbar onNavigate={onNavigate} />
       <main className="max-w-5xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-serif text-lux-gold tracking-wide mb-8 border-b border-lux-gold/10 pb-4">
-          Your Luxury Selection
-        </h2>
+        <div className="flex justify-between items-center border-b border-lux-gold/10 pb-4 mb-8">
+          <h2 className="text-3xl font-serif text-lux-gold tracking-wide">
+            Your Luxury Selection
+          </h2>
+          {cartItems.length > 0 && (
+            <button
+              onClick={clearCart}
+              className="text-xs uppercase tracking-widest text-lux-textMuted border border-lux-textMuted/30 px-4 py-2 rounded hover:border-red-400 hover:text-red-400 transition-colors"
+            >
+              Clear Cart
+            </button>
+          )}
+        </div>
         
         {cartItems.length === 0 ? (
           <p className="text-lux-textMuted italic text-center py-12">Your cart is empty. Begin collecting masterpieces.</p>
@@ -86,6 +128,12 @@ export const Cart = ({ onNavigate }) => {
                   <button onClick={() => updateQty(item.book_id, item.quantity, -1)} className="bg-lux-bg border border-lux-gold/30 w-8 h-8 rounded text-lux-gold font-bold hover:bg-lux-gold hover:text-lux-bg transition-all">-</button>
                   <span className="font-bold text-lg w-6 text-center">{item.quantity}</span>
                   <button onClick={() => updateQty(item.book_id, item.quantity, 1)} className="bg-lux-bg border border-lux-gold/30 w-8 h-8 rounded text-lux-gold font-bold hover:bg-lux-gold hover:text-lux-bg transition-all">+</button>
+                  <button
+                    onClick={() => removeItem(item.book_id)}
+                    className="ml-2 text-xs uppercase tracking-wider text-lux-textMuted hover:text-red-400 transition-colors"
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
             ))}

@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "bcrypt": "^6.0.0",
