@@ -11,7 +11,9 @@ const { ensureUserAuthColumns } = require('./model/db');
 const app = express();
 
 app.use(cors({
-  origin: [process.env.CLIENT_URL||'http://localhost:5173'],
+  origin: ['http://localhost:5173',
+    'http://127.0.0.1:5173',
+    process.env.CLIENT_URL],
   credentials: true,
 }));
 app.use(express.json());
