@@ -11,7 +11,7 @@ const { ensureUserAuthColumns } = require('./model/db');
 const app = express();
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: [process.env.CLIENT_URL||'http://localhost:5173'],
   credentials: true,
 }));
 app.use(express.json());
@@ -20,10 +20,13 @@ app.use('/api', authRoutes);
 app.use('/api', HomeRoute);
 app.use('/api', specificBook);
 app.use('/api', cartOrdersRoute);
-
+app.get('/', (req, res) => {
+  res.send('API is running successfully!');
+});
 const PORT = process.env.PORT || 5000;
 ensureUserAuthColumns().then(() => {
   app.listen(PORT, () => {
     console.log('Server is running on port', PORT);
   });
 });
+module.exports = app;
