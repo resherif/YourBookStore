@@ -18,7 +18,7 @@ export const Login = ({ onNavigate }) => {
     e.preventDefault();
     setMessage('');
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch(`${API_URL}/api/login`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -32,7 +32,7 @@ export const Login = ({ onNavigate }) => {
         const pendingItem = localStorage.getItem('pendingCartItem');
         if (pendingItem) {
           const parsedItem = JSON.parse(pendingItem);
-          await fetch('/api/cart', {
+          await fetch(`${API_URL}/api/cart`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ export const Login = ({ onNavigate }) => {
     setMessage('');
 
     try {
-      const response = await fetch('/api/forgot-password', {
+      const response = await fetch(`${API_URL}/api/forgot-password `, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: resetEmail })
@@ -82,7 +82,7 @@ export const Login = ({ onNavigate }) => {
     setMessage('');
 
     try {
-      const response = await fetch('/api/reset-password', {
+      const response = await fetch(`${API_URL}/api/reset-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token: resetToken, password: newPassword })

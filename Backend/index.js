@@ -20,9 +20,7 @@ app.use('/api', authRoutes);
 app.use('/api', HomeRoute);
 app.use('/api', specificBook);
 app.use('/api', cartOrdersRoute);
-app.get('/', (req, res) => {
-  res.send('API is running successfully!');
-});
+
 const PORT = process.env.PORT || 5000;
 ensureUserAuthColumns().then(() => {
   app.listen(PORT, () => {

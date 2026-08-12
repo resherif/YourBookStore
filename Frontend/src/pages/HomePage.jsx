@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import Navbar from '../components/Navbar';
 import { BookCard } from '../components/BookCard';
 import '../../src/index.css';
-
+const API_URL = import.meta.env.VITE_API_URL || '';
 export const Home = ({ onNavigate }) => {
   const [books, setBooks] = useState([]);
   const token = useSelector((state) => state.cart.token); 
@@ -16,7 +16,7 @@ export const Home = ({ onNavigate }) => {
           headers.Authorization = `Bearer ${token}`;
         }
 
-        const res = await fetch('/api/books', { headers, credentials: 'include' });
+        const res = await fetch(`${API_URL}/api/books`, { headers, credentials: 'include' });
         const data = await res.json();
 
         if (res.ok && data.success) {

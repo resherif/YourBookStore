@@ -3,6 +3,7 @@ import Navbar  from '../components/Navbar';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCartItems } from '../store/cartSlice';
 import '../../src/index.css'
+const API_URL= import.meta.env.VITE_API_URL || ''
 export const Cart = ({ onNavigate }) => {
   const token = useSelector((state) => state.cart.token);
   const cartItems = useSelector((state) => state.cart.items);
@@ -11,7 +12,7 @@ export const Cart = ({ onNavigate }) => {
 
   useEffect(() => {
     if (token) {
-      fetch('/api/cart', {
+      fetch(`${API_URL}/api/cart`, {
         credentials: 'include',
         headers: { 'Authorization': `Bearer ${token}` }
       })
@@ -25,7 +26,7 @@ export const Cart = ({ onNavigate }) => {
     if (newQty <= 0) return; 
 
     try {
-      await fetch('/api/cart', {
+      await fetch(`${API_URL}/api/cart`, {
         method: 'PUT',
         credentials: 'include',
         headers: {
@@ -35,7 +36,7 @@ export const Cart = ({ onNavigate }) => {
         body: JSON.stringify({ book_id, quantity: newQty })
       });
       
-      const res = await fetch('/api/cart', { credentials: 'include', headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch(`${API_URL}/api/cart`, { credentials: 'include', headers: { 'Authorization': `Bearer ${token}` } });
       const data = await res.json();
       if (data.success) dispatch(setCartItems(data.data));
     } catch (err) {
@@ -44,13 +45,13 @@ export const Cart = ({ onNavigate }) => {
   };
  const removeItem = async (book_id) => {
     try {
-      await fetch(`/api/cart/${book_id}`, {
+      await fetch(`${API_URL}/api/cart/${book_id}`, {
         method: 'DELETE',
         credentials: 'include',
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
-      const res = await fetch('/api/cart', { credentials: 'include', headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch(`${API_URL}/api/cart`, { credentials: 'include', headers: { 'Authorization': `Bearer ${token}` } });
       const data = await res.json();
       if (data.success) dispatch(setCartItems(data.data));
     } catch (err) {
@@ -62,7 +63,7 @@ export const Cart = ({ onNavigate }) => {
     if (!window.confirm('Are you sure you want to clear your cart?')) return;
 
     try {
-      await fetch('/api/cart', {
+      await fetch(`${API_URL}/api/cart`, {
         method: 'DELETE',
         credentials: 'include',
         headers: { 'Authorization': `Bearer ${token}` }
@@ -76,7 +77,7 @@ export const Cart = ({ onNavigate }) => {
   const handleCheckout = async () => {
     if (!address) return alert('Please enter your shipping address.');
     
-    const response = await fetch('/api/orders/checkout', {
+    const response = await fetch(`${API_URL}/api/orders/checkout`, {
       method: 'POST',
       credentials: 'include',
       headers: {
