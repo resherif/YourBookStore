@@ -15,7 +15,7 @@ export const Signup = ({ onNavigate }) => {
     setMessage('');
 
     try {
-      const response = await fetch(`${API_URL}/api/register`, {
+      const response = await fetch(`${API_URL}api/register`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
